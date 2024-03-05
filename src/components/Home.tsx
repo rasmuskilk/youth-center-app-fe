@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
-
-interface Center {
-    uuid: string;
-    name: string;
-}
+import { YouthCenter} from 'YouthCenter';
 
 const Home: React.FC = () => {
-    const [centers, setCenters] = useState<Center[]>([]);
+    const [centers, setCenters] = useState<YouthCenter[]>([]);
     const [newCenterName, setNewCenterName] = useState<string>('');
     const [editingCenterUuid, setEditingCenterUuid] = useState<string | null>(null);
     const token = localStorage.getItem('token');
@@ -16,7 +12,7 @@ const Home: React.FC = () => {
     useEffect(() => {
         const fetchCenters = async () => {
             try {
-                const response = await axios.get<Center[]>('http://localhost:5041/api/v1/centers', {
+                const response = await axios.get<YouthCenter[]>('http://localhost:5041/api/v1/centers', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -33,7 +29,7 @@ const Home: React.FC = () => {
 
     const addCenter = async () => {
         try {
-            const response = await axios.post<Center>('http://localhost:5041/api/v1/centers', {
+            const response = await axios.post<YouthCenter>('http://localhost:5041/api/v1/centers', {
                 name: newCenterName,
             }, {
                 headers: {
@@ -72,7 +68,7 @@ const Home: React.FC = () => {
 
     const updateCenter = async (uuid: string, newName: string) => {
         try {
-            const response = await axios.put<Center>(`http://localhost:5041/api/v1/centers/${uuid}`, {
+            const response = await axios.put<YouthCenter>(`http://localhost:5041/api/v1/centers/${uuid}`, {
                 name: newName,
             }, {
                 headers: {
@@ -118,13 +114,17 @@ const Home: React.FC = () => {
                         <div>
                             {editingCenterUuid === center.uuid ? (
                                 <>
-                                    <button className="btn btn-success" onClick={() => updateCenter(center.uuid, newCenterName)}>Save</button>
+                                    <button className="btn btn-success"
+                                            onClick={() => updateCenter(center.uuid, newCenterName)}>Save
+                                    </button>
                                     <button className="btn btn-secondary ml-2" onClick={cancelEditing}>Cancel</button>
                                 </>
                             ) : (
-                                <button className="btn btn-warning ml-2" onClick={() => startEditing(center.uuid)}>Edit</button>
+                                <button className="btn btn-warning ml-2"
+                                        onClick={() => startEditing(center.uuid)}>Edit</button>
                             )}
-                            <button className="btn btn-danger ml-2" onClick={() => removeCenter(center.uuid)}>Remove</button>
+                            <button className="btn btn-danger ml-2" onClick={() => removeCenter(center.uuid)}>Remove
+                            </button>
                         </div>
                     </li>
                 ))}

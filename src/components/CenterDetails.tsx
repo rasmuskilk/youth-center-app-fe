@@ -2,47 +2,17 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
-
-interface Employee {
-    uuid: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    education: string,
-    role: string,
-}
-
-interface Visitor {
-    uuid: string,
-    firstName: string,
-    lastName: string,
-    age: number,
-}
-
-interface Activity {
-    uuid: string,
-    name: string,
-    time: Date,
-    activityTypeName: string,
-}
-
-interface Center {
-    uuid: string;
-    name: string;
-    employees: Employee[],
-    visitors: Visitor[],
-    activities: Activity[]
-}
+import {YouthCenterDetails} from "YouthCenterDetails";
 
 const CenterDetails: React.FC = () => {
     const { uuid } = useParams();
-    const [centerDetails, setCenterDetails] = useState<Center | null>(null);
+    const [centerDetails, setCenterDetails] = useState<YouthCenterDetails | null>(null);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         const fetchCenterDetails = async (uuid: string | undefined) => {
             try {
-                const response = await axios.get<Center>(`http://localhost:5041/api/v1/centers/${uuid}`, {
+                const response = await axios.get<YouthCenterDetails>(`http://localhost:5041/api/v1/centers/${uuid}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
