@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('rasmus@admin.com');
+    const [password, setPassword] = useState('password');
     const navigate = useNavigate();
 
     const handleLogin = async () => {
