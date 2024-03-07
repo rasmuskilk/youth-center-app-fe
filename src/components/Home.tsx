@@ -107,7 +107,7 @@ const Home: React.FC = () => {
                                 onChange={(e) => setNewCenterName(e.target.value)}
                             />
                         ) : (
-                            <Link to={`/center-details/${center.uuid}`}>
+                            <Link to={`/centers/${center.uuid}`}>
                                 <span>{center.name}</span>
                             </Link>
                         )}

@@ -1,11 +1,11 @@
-// CenterDetails.tsx
+// CenterPage.tsx
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {YouthCenterDetails} from "YouthCenterDetails";
 
-const CenterDetails: React.FC = () => {
-    const { uuid } = useParams();
+const CenterPage: React.FC = () => {
+    const {uuid} = useParams();
     const [centerDetails, setCenterDetails] = useState<YouthCenterDetails | null>(null);
     const token = localStorage.getItem('token');
 
@@ -53,38 +53,24 @@ const CenterDetails: React.FC = () => {
                 ))}
                 </tbody>
             </table>
-            <h3>Visitors</h3>
-            <table className="table table-hover">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Age</th>
-                </tr>
-                </thead>
-                <tbody>
-                {centerDetails.visitors.map(visitor => (
-                    <tr key={visitor.uuid}>
-                        <td>{visitor.firstName}</td>
-                        <td>{visitor.lastName}</td>
-                        <td>{visitor.age}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+
             <h3>Activities</h3>
             <table className="table table-hover">
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Activity Type</th>
+                    <th>Activities</th>
                 </tr>
                 </thead>
                 <tbody>
-                {centerDetails.activities.map(activity => (
-                    <tr key={activity.uuid}>
-                        <td>{activity.name}</td>
-                        <td>{activity.activityTypeName}</td>
+                {centerDetails.activityGroups.map(activityGroup => (
+                    <tr key={activityGroup.uuid}>
+                        <td>
+                            <Link to={`/groups/${activityGroup.uuid}`}>
+                                <span>{activityGroup.name}</span>
+                            </Link>
+                        </td>
+                        <td>{activityGroup.activityCount}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -93,4 +79,4 @@ const CenterDetails: React.FC = () => {
     );
 };
 
-export default CenterDetails;
+export default CenterPage;
