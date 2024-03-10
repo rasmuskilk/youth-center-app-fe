@@ -14,7 +14,6 @@ import Header from './components/common/Header';
 import PageNotFound from './components/common/PageNotFound';
 import VisitorPage from './components/visitor-page/VisitorPage';
 import EmployeePage from './components/employee-page/EmployeePage';
-import IndexPage from "./components/IndexPage";
 
 export const App = () => {
     const setToken = () => {
@@ -33,8 +32,8 @@ export const App = () => {
                 <Header />
                 <div>
                     <Routes>
-                        <Route path="/" element={<IndexPage />} />
-                        <Route path="/home" element={<IndexPage />} />
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/home" element={<HomePage />} />
                         <Route path="/centers" element={<HomePage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />

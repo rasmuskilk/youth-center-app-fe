@@ -115,7 +115,7 @@ const CenterPage: React.FC = () => {
         <section className="vh-100 gradient-custom">
             <div className="container mt-5">
                 <h2>{youthCenter.name}</h2>
-                <p>{youthCenter.address}</p>
+                <h3>Aadress: {youthCenter.address}</h3>
             </div>
             <hr />
             <div className="container mt-5">
