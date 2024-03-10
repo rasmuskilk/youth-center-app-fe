@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { AppContext } from '../state/AppContext';
 import { getJwtFromLocalStorage } from '../utils/jwtUtil';
 import HomePage from './home-page/HomePage';
+import CenterPage from "./center-page/CenterPage";
 
 export const Index = () => {
     const appState = useContext(AppContext);
@@ -12,26 +13,10 @@ export const Index = () => {
         return <Navigate to={'/login'} replace />;
     }
 
-    // const userIsAdmin = () => {
-    //     let roles = appState.roles;
-    //     if (!roles) {
-    //         const localStorageRoles = localStorage.getItem('roles');
-    //         if (localStorageRoles) {
-    //             roles = localStorageRoles.split(',');
-    //         }
-    //     }
-    //     return roles && !!roles.find((role) => {
-    //         return role === "admin";
-    //     });
-    // }
-    //
-    // if (!userIsAdmin()) {
-    //     return <Navigate to={"/groups"} replace/>
-    // }
-
     return (
         <div style={{ background: 'white' }}>
             <HomePage />
+            <CenterPage />
         </div>
     );
 };
