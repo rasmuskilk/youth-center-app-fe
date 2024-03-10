@@ -1,4 +1,4 @@
-import {Visitor} from "Visitor";
+import {Visitor} from "./Visitor";
 
 export interface ActivityDetails {
     "uuid": string,

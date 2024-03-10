@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import {ActivityDetails} from "ActivityDetails";
+import {ActivityDetails} from "../../domain/ActivityDetails";
 
 const ActivityPage: React.FC = () => {
     const {uuid} = useParams();

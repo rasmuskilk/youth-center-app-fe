@@ -1,6 +1,6 @@
-import {Employee} from "Employee";
-import {Visitor} from "Visitor";
-import {ActivityGroup} from "ActivityGroup";
+import {Employee} from "./Employee";
+import {Visitor} from "./Visitor";
+import {ActivityGroup} from "./ActivityGroup";
 
 export interface YouthCenterDetails {
     uuid: string;

@@ -1,12 +1,11 @@
-// CenterPage.tsx
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
-import {YouthCenterDetails} from "YouthCenterDetails";
+import {YouthCenterDetails} from "../../domain/YouthCenterDetails";
 
 const CenterPage: React.FC = () => {
     const {uuid} = useParams();
-    const [centerDetails, setCenterDetails] = useState<YouthCenterDetails | null>(null);
+    const [center, setCenter] = useState<YouthCenterDetails | null>(null);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -18,7 +17,7 @@ const CenterPage: React.FC = () => {
                     },
                 });
 
-                setCenterDetails(response.data);
+                setCenter(response.data);
             } catch (error) {
                 console.error('Error fetching centers:', error);
             }
@@ -27,13 +26,13 @@ const CenterPage: React.FC = () => {
         fetchCenterDetails(uuid);
     }, [token, uuid]);
 
-    if (!centerDetails) {
+    if (!center) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="container mt-5">
-            <h2>{centerDetails.name}</h2>
+            <h2>{center.name}</h2>
             <h3>Employees</h3>
             <table className="table table-hover">
                 <thead>
@@ -44,7 +43,7 @@ const CenterPage: React.FC = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {centerDetails.employees.map(employee => (
+                {center.employees.map(employee => (
                     <tr key={employee.uuid}>
                         <td>{employee.firstName}</td>
                         <td>{employee.lastName}</td>
@@ -63,7 +62,7 @@ const CenterPage: React.FC = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {centerDetails.activityGroups.map(activityGroup => (
+                {center.activityGroups.map(activityGroup => (
                     <tr key={activityGroup.uuid}>
                         <td>
                             <Link to={`/groups/${activityGroup.uuid}`}>

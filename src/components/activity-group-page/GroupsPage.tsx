@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
-import { ActivityGroupDetails } from "ActivityGroupDetails";
+import {ActivityGroupDetails} from "../../domain/ActivityGroupDetails";
 
 const GroupsPage: React.FC = () => {
     const { uuid } = useParams();
