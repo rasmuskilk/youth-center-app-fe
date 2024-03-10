@@ -1,21 +1,22 @@
-// CenterPage.tsx
-import React, {useContext, useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import {ActivityService} from "../../service/activity/ActivityService";
-import {Activity} from "../../domain/Activity";
-import {AppContext} from "../../state/AppContext";
-import {Visitor} from "../../domain/Visitor";
-import {ActivityVisitorService} from "../../service/activity-visitor/ActivityVisitorService";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ActivityService } from '../../service/activity/ActivityService';
+import { Activity } from '../../domain/Activity';
+import { AppContext } from '../../state/AppContext';
+import { Visitor } from '../../domain/Visitor';
+import { ActivityVisitorService } from '../../service/activity-visitor/ActivityVisitorService';
 
 const ActivityPage: React.FC = () => {
-    const {activityUuid} = useParams();
+    const { activityUuid } = useParams();
     const activityService = new ActivityService();
     const activityVisitorService = new ActivityVisitorService();
     const appState = useContext(AppContext);
     const navigate = useNavigate();
 
     const [activity, setActivity] = useState<Activity | null>(null);
-    const [activityVisitors, setActivityVisitors] = useState<Visitor[] | null>(null);
+    const [activityVisitors, setActivityVisitors] = useState<Visitor[] | null>(
+        null,
+    );
 
     useEffect(() => {
         fetchActivity();
@@ -24,7 +25,7 @@ const ActivityPage: React.FC = () => {
 
     const redirectToLink = (entityUuid: string) => {
         navigate(`/visitors/${entityUuid}`);
-    }
+    };
 
     const fetchActivity = async () => {
         try {
@@ -58,9 +59,9 @@ const ActivityPage: React.FC = () => {
                 <h2>{activity?.description}</h2>
                 <p>Algus: {activity?.startDate.toString()}</p>
                 <p>L6pp: {activity?.endDate.toString()}</p>
-                <hr/>
+                <hr />
                 <h3>Külastajad</h3>
-                <hr/>
+                <hr />
                 <div className="list-group">
                     {activityVisitors &&
                         activityVisitors.map((visitor) => (

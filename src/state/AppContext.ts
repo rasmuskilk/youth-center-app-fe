@@ -2,9 +2,9 @@ import React from 'react';
 import { AppState } from './AppState';
 
 export const initialState: AppState = {
-  jwt: null,
-  email: null,
-  roles: null,
+    jwt: null,
+    email: null,
+    roles: null,
 };
 
 export const AppContext = React.createContext<AppState>(initialState);

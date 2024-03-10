@@ -1,24 +1,27 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import {useNavigate, useParams} from 'react-router-dom';
-import {AppContext} from '../../state/AppContext';
-import {YouthCenter} from '../../domain/YouthCenter';
-import {YouthCenterService} from '../../service/youth-center/YouthCenterService';
-import {YouthCenterEmployeeService} from '../../service/employee/YouthCenterEmployeeService';
-import {YouthCenterVisitorService} from '../../service/visitor/YouthCenterVisitorService';
-import {ActivityGroupService} from '../../service/activity-group/ActivityGroupService';
-import {Employee} from '../../domain/Employee';
-import {Visitor} from '../../domain/Visitor';
-import {ActivityGroup} from '../../domain/ActivityGroup';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AppContext } from '../../state/AppContext';
+import { YouthCenter } from '../../domain/YouthCenter';
+import { YouthCenterService } from '../../service/youth-center/YouthCenterService';
+import { YouthCenterEmployeeService } from '../../service/employee/YouthCenterEmployeeService';
+import { YouthCenterVisitorService } from '../../service/visitor/YouthCenterVisitorService';
+import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
+import { Employee } from '../../domain/Employee';
+import { Visitor } from '../../domain/Visitor';
+import { ActivityGroup } from '../../domain/ActivityGroup';
 
 const CenterPage: React.FC = () => {
-    const {uuid} = useParams();
+    const { uuid } = useParams();
     const appState = useContext(AppContext);
 
     const navigate = useNavigate();
 
-    const redirectToLink = (entity: string, entityUuid: string, centersPage: boolean) => {
+    const redirectToLink = (
+        entity: string,
+        entityUuid: string,
+        centersPage: boolean,
+    ) => {
         if (!centersPage) {
             navigate(`/${entity}/${entityUuid}`);
         } else {
@@ -51,7 +54,10 @@ const CenterPage: React.FC = () => {
 
     const fetchCenterDetails = async (uuid: string) => {
         try {
-            const response = await youthCenterService.get(uuid, appState.jwt?.token!);
+            const response = await youthCenterService.get(
+                uuid,
+                appState.jwt?.token!,
+            );
 
             setYouthCenter(response);
         } catch (error) {
@@ -107,7 +113,7 @@ const CenterPage: React.FC = () => {
                 <h2>{youthCenter.name}</h2>
                 <p>{youthCenter.address}</p>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Töötajad</h3>
                 <div className="list-group">
@@ -116,7 +122,13 @@ const CenterPage: React.FC = () => {
                             <button
                                 key={employee.uuid}
                                 type="button"
-                                onClick={() => redirectToLink('employees', employee.uuid, false)}
+                                onClick={() =>
+                                    redirectToLink(
+                                        'employees',
+                                        employee.uuid,
+                                        false,
+                                    )
+                                }
                                 className="list-group-item list-group-item-action"
                             >
                                 {employee.firstName} {employee.lastName}
@@ -124,7 +136,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Külastajad</h3>
                 <div className="list-group">
@@ -133,7 +145,13 @@ const CenterPage: React.FC = () => {
                             <button
                                 key={visitor.uuid}
                                 type="button"
-                                onClick={() => redirectToLink('visitors', visitor.uuid!, false)}
+                                onClick={() =>
+                                    redirectToLink(
+                                        'visitors',
+                                        visitor.uuid!,
+                                        false,
+                                    )
+                                }
                                 className="list-group-item list-group-item-action"
                             >
                                 {visitor.firstName} {visitor.lastName}
@@ -141,7 +159,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Tegevused</h3>
                 <div className="list-group">
@@ -150,7 +168,13 @@ const CenterPage: React.FC = () => {
                             <button
                                 key={activityGroup.uuid}
                                 type="button"
-                                onClick={() => redirectToLink('groups', activityGroup.uuid, true)}
+                                onClick={() =>
+                                    redirectToLink(
+                                        'groups',
+                                        activityGroup.uuid,
+                                        true,
+                                    )
+                                }
                                 className="list-group-item list-group-item-action"
                             >
                                 {activityGroup.name}

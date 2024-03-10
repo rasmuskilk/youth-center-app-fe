@@ -1,3 +1,3 @@
 export interface ErrorMessage {
-  [key: string]: string[];
+    [key: string]: string[];
 }

@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {AppContext} from "../../state/AppContext";
-import {Employee} from "../../domain/Employee";
-import {EmployeeService} from "../../service/employee/EmployeeService";
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { AppContext } from '../../state/AppContext';
+import { Employee } from '../../domain/Employee';
+import { EmployeeService } from '../../service/employee/EmployeeService';
 
 const EmployeePage: React.FC = () => {
-    const { employeeUuid} = useParams();
+    const { employeeUuid } = useParams();
     const employeeService = new EmployeeService();
     const appState = useContext(AppContext);
 
@@ -31,7 +31,9 @@ const EmployeePage: React.FC = () => {
     return (
         <section className="vh-100 gradient-custom">
             <div className="container mt-5">
-                <h2>{employee?.firstName} {employee?.lastName}</h2>
+                <h2>
+                    {employee?.firstName} {employee?.lastName}
+                </h2>
             </div>
         </section>
     );

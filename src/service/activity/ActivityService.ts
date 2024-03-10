@@ -1,7 +1,7 @@
-import {BaseService} from "../base/BaseService";
-import {Activity} from "../../domain/Activity";
-import {ActivityGroup} from "../../domain/ActivityGroup";
-import httpClient from "../../utils/http-client";
+import { BaseService } from '../base/BaseService';
+import { Activity } from '../../domain/Activity';
+import { ActivityGroup } from '../../domain/ActivityGroup';
+import httpClient from '../../utils/http-client';
 
 export class ActivityService extends BaseService<Activity> {
     constructor() {
@@ -13,10 +13,14 @@ export class ActivityService extends BaseService<Activity> {
         activity: Activity,
         token: string,
     ): Promise<void> {
-        const response = await httpClient.post(`/groups/${activityGroupUuid}/activities`, activity, {
-            headers: {
-                Authorization: 'Bearer ' + token,
+        const response = await httpClient.post(
+            `/groups/${activityGroupUuid}/activities`,
+            activity,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
             },
-        });
+        );
     }
 }
