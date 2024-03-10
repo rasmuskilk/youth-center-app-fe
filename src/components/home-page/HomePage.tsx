@@ -16,9 +16,6 @@ const HomePage: React.FC = () => {
     const [newCenterName, setNewCenterName] = useState<string>('');
     const [newCenterAddress, setNewCenterAddress] = useState<string>('');
 
-    const [youthCenterUpdated, setYouthCenterUpdated] = useState('');
-    const [youthCenterRemoved, setYouthCenterRemoved] = useState('');
-
     const youthCenterService = new YouthCenterService();
 
     useEffect(() => {
@@ -48,17 +45,12 @@ const HomePage: React.FC = () => {
         await fetchYouthCenters();
     };
 
-    const removeYouthCenter = async (uuid: string) => {
-        await youthCenterService.remove(uuid, appState.jwt?.token!);
-        setYouthCenterRemoved(uuid);
-    };
-
     return (
         <section className="vh-100 gradient-custom">
             <div className="container mt-6">
                 <h2>Noortekeskused</h2>
                 <hr />
-                <div>
+                {appState.roles?.includes('admin') ? <div>
                     <div className="row g-5">
                         <div className="col-auto">
                             <input
@@ -89,8 +81,8 @@ const HomePage: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-                <hr />
+                    <hr/>
+                </div> : null}
                 <div className="list-group">
                     {youthCenters.map((youthCenter) => (
                         <button

@@ -31,31 +31,17 @@ export const Header = () => {
                 >
                     Noortekeskused
                 </NavLink>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarText"
-                    aria-controls="navbarText"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
+                <NavLink
+                    className="navbar-brand light-text"
+                    style={{ color: 'whitesmoke', fontSize: 'x-large' }}
+                    to={'/statistics'}
                 >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+                    Statistika
+                </NavLink>
                 {appState.jwt?.token && (
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item">
-                                <NavLink
-                                    className="nav-link light-text"
-                                    style={{
-                                        color: 'whitesmoke',
-                                        fontSize: 'large',
-                                    }}
-                                    to={'/statistics'}
-                                >
-                                    Statistika
-                                </NavLink>
                             </li>
                         </ul>
                     </div>

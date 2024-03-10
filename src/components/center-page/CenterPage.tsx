@@ -113,7 +113,7 @@ const CenterPage: React.FC = () => {
                 <h2>{youthCenter.name}</h2>
                 <p>{youthCenter.address}</p>
             </div>
-            <hr />
+            <hr/>
             <div className="container mt-5">
                 <h3>Töötajad</h3>
                 <div className="list-group">
@@ -136,7 +136,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div className="container mt-5">
                 <h3>Külastajad</h3>
                 <div className="list-group">
@@ -159,7 +159,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr />
+            <hr/>
             <div className="container mt-5">
                 <h3>Tegevused</h3>
                 <div className="list-group">
