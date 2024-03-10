@@ -2,11 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { YouthCenter } from '../../domain/YouthCenter';
 import { YouthCenterService } from '../../service/youth-center/YouthCenterService';
 import { AppContext } from '../../state/AppContext';
-import { useNavigate } from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     const appState = useContext(AppContext);
     const navigate = useNavigate();
+
+    if (!appState.jwt) {
+        return <Navigate to={"/login"} replace/>
+    }
 
     const redirectToLink = (uuid: string) => {
         navigate(`/centers/${uuid}`);
@@ -50,39 +54,41 @@ const HomePage: React.FC = () => {
             <div className="container mt-6">
                 <h2>Noortekeskused</h2>
                 <hr />
-                {appState.roles?.includes('admin') ? <div>
-                    <div className="row g-5">
-                        <div className="col-auto">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Noortekeskuse nimi"
-                                onChange={(e) => {
-                                    setNewCenterName(e.target.value);
-                                }}
-                            />
+                {appState.roles?.includes('admin') ? (
+                    <div>
+                        <div className="row g-5">
+                            <div className="col-auto">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Noortekeskuse nimi"
+                                    onChange={(e) => {
+                                        setNewCenterName(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="col-auto">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Aadress"
+                                    onChange={(e) => {
+                                        setNewCenterAddress(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="col-auto">
+                                <button
+                                    className="btn btn-success"
+                                    onClick={async () => await addYouthCenter()}
+                                >
+                                    Lisa
+                                </button>
+                            </div>
                         </div>
-                        <div className="col-auto">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Aadress"
-                                onChange={(e) => {
-                                    setNewCenterAddress(e.target.value);
-                                }}
-                            />
-                        </div>
-                        <div className="col-auto">
-                            <button
-                                className="btn btn-success"
-                                onClick={async () => await addYouthCenter()}
-                            >
-                                Lisa
-                            </button>
-                        </div>
+                        <hr />
                     </div>
-                    <hr/>
-                </div> : null}
+                ) : null}
                 <div className="list-group">
                     {youthCenters.map((youthCenter) => (
                         <button

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import { AppContext } from '../../state/AppContext';
 import { YouthCenter } from '../../domain/YouthCenter';
 import { YouthCenterService } from '../../service/youth-center/YouthCenterService';
@@ -14,6 +14,10 @@ import { ActivityGroup } from '../../domain/ActivityGroup';
 const CenterPage: React.FC = () => {
     const { uuid } = useParams();
     const appState = useContext(AppContext);
+
+    if (!appState.jwt) {
+        return <Navigate to={"/login"} replace/>
+    }
 
     const navigate = useNavigate();
 
@@ -113,7 +117,7 @@ const CenterPage: React.FC = () => {
                 <h2>{youthCenter.name}</h2>
                 <p>{youthCenter.address}</p>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Töötajad</h3>
                 <div className="list-group">
@@ -136,7 +140,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Külastajad</h3>
                 <div className="list-group">
@@ -159,7 +163,7 @@ const CenterPage: React.FC = () => {
                         ))}
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="container mt-5">
                 <h3>Tegevused</h3>
                 <div className="list-group">

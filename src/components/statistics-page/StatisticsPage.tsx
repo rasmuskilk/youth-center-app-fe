@@ -1,8 +1,15 @@
 // CenterPage.tsx
-import React from 'react';
+import React, {useContext} from 'react';
+import {AppContext} from "../../state/AppContext";
+import {Navigate} from "react-router-dom";
 
 const StatisticsPage: React.FC = () => {
-    const token = localStorage.getItem('token');
+    const appState = useContext(AppContext);
+
+    if (!appState.jwt) {
+        return <Navigate to={"/login"} replace/>
+    }
+
     return (
         <section className="vh-100 gradient-custom">
             <div className="container mt-5">

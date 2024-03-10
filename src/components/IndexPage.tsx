@@ -4,8 +4,12 @@ import { AppContext } from '../state/AppContext';
 import { getJwtFromLocalStorage } from '../utils/jwtUtil';
 import HomePage from './home-page/HomePage';
 import CenterPage from "./center-page/CenterPage";
+import GroupsPage from "./activity-group-page/GroupsPage";
+import ActivityPage from "./activity-page/ActivityPage";
+import EmployeePage from "./employee-page/EmployeePage";
+import VisitorPage from "./visitor-page/VisitorPage";
 
-export const Index = () => {
+const IndexPage = () => {
     const appState = useContext(AppContext);
     appState.jwt = getJwtFromLocalStorage();
 
@@ -17,6 +21,12 @@ export const Index = () => {
         <div style={{ background: 'white' }}>
             <HomePage />
             <CenterPage />
+            <GroupsPage />
+            <ActivityPage />
+            <EmployeePage />
+            <VisitorPage />
         </div>
     );
 };
+
+export default IndexPage;

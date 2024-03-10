@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import { ActivityGroup } from '../../domain/ActivityGroup';
 import { Activity } from '../../domain/Activity';
 import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
@@ -12,6 +12,10 @@ const GroupsPage: React.FC = () => {
     const appState = useContext(AppContext);
     const activityGroupService = new ActivityGroupService();
     const activityService = new ActivityService();
+
+    if (!appState.jwt) {
+        return <Navigate to={"/login"} replace/>
+    }
 
     const [activityGroup, setActivityGroup] = useState<ActivityGroup | null>(
         null,

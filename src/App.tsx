@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import {redirect, Route, Routes} from 'react-router-dom';
 import Login from './components/login-page/Login';
 import Register from './components/register-page/Register';
 import GroupsPage from './components/activity-group-page/GroupsPage';
@@ -14,6 +14,7 @@ import Header from './components/common/Header';
 import PageNotFound from './components/common/PageNotFound';
 import VisitorPage from './components/visitor-page/VisitorPage';
 import EmployeePage from './components/employee-page/EmployeePage';
+import IndexPage from "./components/IndexPage";
 
 export const App = () => {
     const setToken = () => {
@@ -22,14 +23,18 @@ export const App = () => {
 
     const [appState, setAppState] = useState({ ...initialState, setToken });
 
+    if (!appState.jwt?.token) {
+        redirect('/login')
+    }
+
     return (
         <div className="gradient-custom">
             <AppContextProvider value={appState}>
                 <Header />
                 <div>
                     <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/home" element={<HomePage />} />
+                        <Route path="/" element={<IndexPage />} />
+                        <Route path="/home" element={<IndexPage />} />
                         <Route path="/centers" element={<HomePage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />

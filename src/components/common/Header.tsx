@@ -21,7 +21,7 @@ export const Header = () => {
         navigate('/login');
     };
 
-    return (
+    return appState.jwt && (
         <div className="container" style={{ borderBottom: '2px solid' }}>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <NavLink
@@ -41,8 +41,7 @@ export const Header = () => {
                 {appState.jwt?.token && (
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item">
-                            </li>
+                            <li className="nav-item"></li>
                         </ul>
                     </div>
                 )}
