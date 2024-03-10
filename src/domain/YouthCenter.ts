@@ -1,4 +1,5 @@
 export interface YouthCenter {
-    uuid: string;
-    name: string;
+  uuid?: string;
+  name: string;
+  address?: string;
 }

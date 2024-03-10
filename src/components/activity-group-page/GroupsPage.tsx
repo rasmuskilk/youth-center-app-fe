@@ -1,66 +1,111 @@
 // CenterPage.tsx
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {Link, useParams} from "react-router-dom";
-import {ActivityGroupDetails} from "../../domain/ActivityGroupDetails";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ActivityGroup } from '../../domain/ActivityGroup';
+import { Activity } from '../../domain/Activity';
+import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
+import { AppContext } from '../../state/AppContext';
+import {ActivityService} from "../../service/activity/ActivityService";
 
 const GroupsPage: React.FC = () => {
-    const { uuid } = useParams();
-    const [activityGroupDetails, setActivityGroupDetails] = useState<ActivityGroupDetails | null>(null);
-    const token = localStorage.getItem('token');
+  const { activityGroupUuid } = useParams();
+  const navigate = useNavigate();
+  const appState = useContext(AppContext);
+  const activityGroupService = new ActivityGroupService();
+  const activityService = new ActivityService();
 
-    useEffect(() => {
-        const fetchActivityGroupDetails = async (uuid: string | undefined) => {
-            try {
-                const response = await axios.get<ActivityGroupDetails>(`http://localhost:5041/api/v1/groups/${uuid}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+  const [activityGroup, setActivityGroup] = useState<ActivityGroup | null>(
+    null,
+  );
+  const [activities, setActivities] = useState<Activity[] | null>(null);
+  const [newActivityDescription, setNewActivityDescription] = useState<string>('');
 
-                setActivityGroupDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching centers:', error);
-            }
-        };
+  useEffect(() => {
+    fetchActivityGroup();
+    fetchActivityGroupActivities();
+  }, []);
 
-        fetchActivityGroupDetails(uuid);
-    }, [token, uuid]);
+  const redirectToLink = (entity: string, entityUuid: string) => {
+    navigate(`${entity}/${entityUuid}`);
+  };
 
-    if (!activityGroupDetails) {
-        return <div>Loading...</div>;
+  const fetchActivityGroup = async () => {
+    try {
+      const response = await activityGroupService.get(
+          activityGroupUuid!,
+        appState.jwt?.token!,
+      );
+
+      setActivityGroup(response);
+    } catch (error) {
+      console.error('Error fetching centers:', error);
     }
+  };
 
-    return (
-        <div className="container mt-5">
-            <h2>{activityGroupDetails.name}</h2>
-            <h3>Activities</h3>
-            <table className="table table-hover">
-                <thead>
-                <tr>
-                    <th>Description</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                {activityGroupDetails.activities.map(activity => (
-                    <tr key={activity.uuid}>
-                        <td>
-                            <Link to={`/activities/${activity.uuid}`}>
-                                <span>{activity.description}</span>
-                            </Link>
-                       </td>
-                        <td>{activity.startDate.toString()}</td>
-                        <td>{activity.endDate.toString()}</td>
-                        <td>{activity.activityTypeName}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+  const fetchActivityGroupActivities = async () => {
+    try {
+      const response = await activityGroupService.getActivityGroup(
+          activityGroupUuid!,
+        appState.jwt?.token!,
+      );
+
+      setActivities(response);
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+    }
+  };
+
+  const addActivity = async () => {
+    const activity = { description: newActivityDescription, startDate: new Date(), endDate: new Date() } as Activity;
+    await activityService.addActivityToGroup(activityGroupUuid!, activity, appState.jwt?.token!);
+    fetchActivityGroupActivities();
+  }
+
+  return (
+    <section className="vh-100 gradient-custom">
+      <div className="container mt-5">
+        <h2>{activityGroup && activityGroup!.name}</h2>
+        <hr/>
+        <h3>Tegevused</h3>
+        <div>
+          <div className="row g-5">
+            <div className="col-auto">
+              <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Tegevuse nimi"
+                  onChange={(e) => {
+                    setNewActivityDescription(e.target.value);
+                  }}
+              />
+            </div>
+            <div className="col-auto">
+              <button
+                  className="btn btn-success"
+                  onClick={async () => await addActivity()}
+              >
+                Lisa
+              </button>
+            </div>
+          </div>
         </div>
-    );
+        <hr/>
+        <div className="list-group">
+          {activities &&
+              activities.map((activity) => (
+                  <button
+                      key={activity.uuid}
+                      type="button"
+                      onClick={() => redirectToLink('activities', activity.uuid!)}
+                      className="list-group-item list-group-item-action"
+                  >
+                    {activity.description}
+                  </button>
+              ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default GroupsPage;

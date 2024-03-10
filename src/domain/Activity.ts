@@ -1,7 +1,6 @@
 export interface Activity {
-    uuid: string,
-    description: string,
-    startDate: Date,
-    endDate: Date,
-    activityTypeName: string,
+  uuid?: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
 }

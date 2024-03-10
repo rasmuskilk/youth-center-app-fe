@@ -1,59 +1,81 @@
 // CenterPage.tsx
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {useParams} from "react-router-dom";
-import {ActivityDetails} from "../../domain/ActivityDetails";
+import React, {useContext, useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {ActivityService} from "../../service/activity/ActivityService";
+import {Activity} from "../../domain/Activity";
+import {AppContext} from "../../state/AppContext";
+import {Visitor} from "../../domain/Visitor";
+import {ActivityVisitorService} from "../../service/activity-visitor/ActivityVisitorService";
 
 const ActivityPage: React.FC = () => {
-    const {uuid} = useParams();
-    const [activityDetails, setActivityDetails] = useState<ActivityDetails | null>(null);
-    const token = localStorage.getItem('token');
+    const {activityUuid} = useParams();
+    const activityService = new ActivityService();
+    const activityVisitorService = new ActivityVisitorService();
+    const appState = useContext(AppContext);
+    const navigate = useNavigate();
+
+    const [activity, setActivity] = useState<Activity | null>(null);
+    const [activityVisitors, setActivityVisitors] = useState<Visitor[] | null>(null);
 
     useEffect(() => {
-        const fetchActivityGroupDetails = async (uuid: string | undefined) => {
-            try {
-                const response = await axios.get<ActivityDetails>(`http://localhost:5041/api/v1/activities/${uuid}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+        fetchActivity();
+        fetchActivityVisitors();
+    }, []);
 
-                setActivityDetails(response.data);
-            } catch (error) {
-                console.error('Error fetching centers:', error);
-            }
-        };
-
-        fetchActivityGroupDetails(uuid);
-    }, [token, uuid]);
-
-    if (!activityDetails) {
-        return <div>Loading...</div>;
+    const redirectToLink = (entityUuid: string) => {
+        navigate(`/visitors/${entityUuid}`);
     }
 
+    const fetchActivity = async () => {
+        try {
+            const response = await activityService.get(
+                activityUuid!,
+                appState.jwt?.token!,
+            );
+
+            setActivity(response);
+        } catch (error) {
+            console.error('Error fetching activity:', error);
+        }
+    };
+
+    const fetchActivityVisitors = async () => {
+        try {
+            const response = await activityVisitorService.getActivityVisitors(
+                activityUuid!,
+                appState.jwt?.token!,
+            );
+
+            setActivityVisitors(response);
+        } catch (error) {
+            console.error('Error fetching activity visitors:', error);
+        }
+    };
+
     return (
-        <div className="container mt-5">
-            <h2>{activityDetails.description}</h2>
-            <h3>Visitors</h3>
-            <table className="table table-hover">
-                <thead>
-                <tr>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Ager</th>
-                </tr>
-                </thead>
-                <tbody>
-                {activityDetails.visitors.map(visitor => (
-                    <tr key={visitor.uuid}>
-                        <td>{visitor.firstName}</td>
-                        <td>{visitor.lastName.toString()}</td>
-                        <td>{visitor.age.toString()}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
+        <section className="vh-100 gradient-custom">
+            <div className="container mt-5">
+                <h2>{activity?.description}</h2>
+                <p>Algus: {activity?.startDate.toString()}</p>
+                <p>L6pp: {activity?.endDate.toString()}</p>
+                <hr/>
+                <h3>Külastajad</h3>
+                <hr/>
+                <div className="list-group">
+                    {activityVisitors &&
+                        activityVisitors.map((visitor) => (
+                            <button
+                                key={visitor.uuid}
+                                type="button"
+                                onClick={() => redirectToLink(visitor.uuid!)}
+                                className="list-group-item list-group-item-action"
+                            >
+                                {visitor.firstName} {visitor.lastName}
+                            </button>
+                        ))}
+                </div>
+            </div>
+        </section>
     );
 };
 
