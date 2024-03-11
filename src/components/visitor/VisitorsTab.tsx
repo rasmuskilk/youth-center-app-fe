@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../state/AppContext';
 import { YouthCenterVisitorService } from '../../service/visitor/YouthCenterVisitorService';
 import { Visitor } from '../../domain/Visitor';
-import { VisitorTab } from '../visitor-page/VisitorTab';
+import { VisitorTab } from './VisitorTab';
 
 export const VisitorsTab = (props: Props) => {
     const appState = useContext(AppContext);

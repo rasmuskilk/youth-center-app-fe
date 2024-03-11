@@ -2,3 +2,11 @@
     /* fallback for old browsers */
     background: rgba(0, 80, 255, 0.15);
 }
+
+.list-group-item {
+    min-width: 12em;
+}
+
+.bold {
+    font-weight: bold;
+}

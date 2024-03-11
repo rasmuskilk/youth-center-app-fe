@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ActivityGroup } from '../../domain/ActivityGroup';
 import { AppContext } from '../../state/AppContext';
 import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
-import { EmployeeTab } from '../employee-page/EmployeeTab';
+import { EmployeeTab } from '../employee/EmployeeTab';
 
 export const ActivityGroupsTab = (props: Props) => {
     const appState = useContext(AppContext);

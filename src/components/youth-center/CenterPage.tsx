@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../state/AppContext';
 import { CenterDetailsTab } from './CenterDetailsTab';
-import { EmployeesTab } from './EmployeesTab';
-import { VisitorsTab } from './VisitorsTab';
-import { ActivityGroupsTab } from './ActivityGroupsTab';
+import { EmployeesTab } from '../employee/EmployeesTab';
+import { VisitorsTab } from '../visitor/VisitorsTab';
+import { ActivityGroupsTab } from '../activity-group/ActivityGroupsTab';
 
 const CenterPage: React.FC = () => {
     const { uuid } = useParams();

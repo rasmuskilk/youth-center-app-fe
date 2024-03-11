@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Employee } from '../../domain/Employee';
 import { AppContext } from '../../state/AppContext';
 import { YouthCenterEmployeeService } from '../../service/employee/YouthCenterEmployeeService';
-import { EmployeeTab } from '../employee-page/EmployeeTab';
+import { EmployeeTab } from './EmployeeTab';
 
 export const EmployeesTab = (props: Props) => {
     const appState = useContext(AppContext);
