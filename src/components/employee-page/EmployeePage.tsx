@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {Navigate, useParams} from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../state/AppContext';
 import { Employee } from '../../domain/Employee';
 import { EmployeeService } from '../../service/employee/EmployeeService';
@@ -10,7 +10,7 @@ const EmployeePage: React.FC = () => {
     const appState = useContext(AppContext);
 
     if (!appState.jwt) {
-        return <Navigate to={"/login"} replace/>
+        return <Navigate to={'/login'} replace />;
     }
 
     const [employee, setEmployee] = useState<Employee | null>(null);

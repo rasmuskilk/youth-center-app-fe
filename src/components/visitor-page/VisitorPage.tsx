@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {Navigate, useParams} from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../state/AppContext';
 import { Visitor } from '../../domain/Visitor';
 import { VisitorService } from '../../service/visitor/VisitorService';
@@ -10,7 +10,7 @@ const VisitorPage: React.FC = () => {
     const appState = useContext(AppContext);
 
     if (!appState.jwt) {
-        return <Navigate to={"/login"} replace/>
+        return <Navigate to={'/login'} replace />;
     }
 
     const [visitor, setVisitor] = useState<Visitor | null>(null);

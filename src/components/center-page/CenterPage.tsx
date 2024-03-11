@@ -1,189 +1,118 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
-import {Navigate, useNavigate, useParams} from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { AppContext } from '../../state/AppContext';
-import { YouthCenter } from '../../domain/YouthCenter';
-import { YouthCenterService } from '../../service/youth-center/YouthCenterService';
-import { YouthCenterEmployeeService } from '../../service/employee/YouthCenterEmployeeService';
-import { YouthCenterVisitorService } from '../../service/visitor/YouthCenterVisitorService';
-import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
-import { Employee } from '../../domain/Employee';
-import { Visitor } from '../../domain/Visitor';
-import { ActivityGroup } from '../../domain/ActivityGroup';
+import { CenterDetailsTab } from './CenterDetailsTab';
+import { EmployeesTab } from './EmployeesTab';
+import { VisitorsTab } from './VisitorsTab';
+import { ActivityGroupsTab } from './ActivityGroupsTab';
 
 const CenterPage: React.FC = () => {
     const { uuid } = useParams();
     const appState = useContext(AppContext);
 
     if (!appState.jwt) {
-        return <Navigate to={"/login"} replace/>
-    }
-
-    const navigate = useNavigate();
-
-    const redirectToLink = (
-        entity: string,
-        entityUuid: string,
-        centersPage: boolean,
-    ) => {
-        if (!centersPage) {
-            navigate(`/${entity}/${entityUuid}`);
-        } else {
-            navigate(`${entity}/${entityUuid}`);
-        }
-    };
-
-    const youthCenterService = new YouthCenterService();
-    const youthCenterEmployeesService = new YouthCenterEmployeeService(uuid!);
-    const youthCenterVisitorService = new YouthCenterVisitorService(uuid!);
-    const youthCenterActivityGroupService = new ActivityGroupService();
-
-    const [youthCenter, setYouthCenter] = useState<YouthCenter | null>(null);
-    const [youthCenterEmployees, setYouthCenterEmployees] = useState<
-        Employee[] | null
-    >(null);
-    const [youthCenterVisitors, setYouthCenterVisitors] = useState<
-        Visitor[] | null
-    >(null);
-    const [youthCenterActivityGroups, setYouthCenterActivityGroups] = useState<
-        ActivityGroup[] | null
-    >(null);
-
-    useEffect(() => {
-        fetchCenterDetails(uuid!);
-        fetchYouthCenterEmployees();
-        fetchYouthCenterVisitors();
-        fetchYouthCenterActivityGroups();
-    }, []);
-
-    const fetchCenterDetails = async (uuid: string) => {
-        try {
-            const response = await youthCenterService.get(
-                uuid,
-                appState.jwt?.token!,
-            );
-
-            setYouthCenter(response);
-        } catch (error) {
-            console.error('Error fetching centers:', error);
-        }
-    };
-
-    const fetchYouthCenterEmployees = async () => {
-        try {
-            const response = await youthCenterEmployeesService.getAll(
-                appState.jwt?.token!,
-            );
-
-            setYouthCenterEmployees(response);
-        } catch (error) {
-            console.error('Error fetching employees:', error);
-        }
-    };
-
-    const fetchYouthCenterVisitors = async () => {
-        try {
-            const response = await youthCenterVisitorService.getAll(
-                appState.jwt?.token!,
-            );
-
-            setYouthCenterVisitors(response);
-        } catch (error) {
-            console.error('Error fetching employees:', error);
-        }
-    };
-
-    const fetchYouthCenterActivityGroups = async () => {
-        try {
-            const response =
-                await youthCenterActivityGroupService.getYouthCenterActivityGroups(
-                    uuid!,
-                    appState.jwt?.token!,
-                );
-
-            setYouthCenterActivityGroups(response);
-        } catch (error) {
-            console.error('Error fetching employees:', error);
-        }
-    };
-
-    if (!youthCenter) {
-        return <div>Loading...</div>;
+        return <Navigate to={'/login'} replace />;
     }
 
     return (
         <section className="vh-100 gradient-custom">
-            <div className="container mt-5">
-                <h2>{youthCenter.name}</h2>
-                <h3>Aadress: {youthCenter.address}</h3>
-            </div>
-            <hr />
-            <div className="container mt-5">
-                <h3>Töötajad</h3>
-                <div className="list-group">
-                    {youthCenterEmployees &&
-                        youthCenterEmployees.map((employee) => (
-                            <button
-                                key={employee.uuid}
-                                type="button"
-                                onClick={() =>
-                                    redirectToLink(
-                                        'employees',
-                                        employee.uuid,
-                                        false,
-                                    )
-                                }
-                                className="list-group-item list-group-item-action"
-                            >
-                                {employee.firstName} {employee.lastName}
-                            </button>
-                        ))}
-                </div>
-            </div>
-            <hr />
-            <div className="container mt-5">
-                <h3>Külastajad</h3>
-                <div className="list-group">
-                    {youthCenterVisitors &&
-                        youthCenterVisitors.map((visitor) => (
-                            <button
-                                key={visitor.uuid}
-                                type="button"
-                                onClick={() =>
-                                    redirectToLink(
-                                        'visitors',
-                                        visitor.uuid!,
-                                        false,
-                                    )
-                                }
-                                className="list-group-item list-group-item-action"
-                            >
-                                {visitor.firstName} {visitor.lastName}
-                            </button>
-                        ))}
-                </div>
-            </div>
-            <hr />
-            <div className="container mt-5">
-                <h3>Tegevused</h3>
-                <div className="list-group">
-                    {youthCenterActivityGroups &&
-                        youthCenterActivityGroups.map((activityGroup) => (
-                            <button
-                                key={activityGroup.uuid}
-                                type="button"
-                                onClick={() =>
-                                    redirectToLink(
-                                        'groups',
-                                        activityGroup.uuid,
-                                        true,
-                                    )
-                                }
-                                className="list-group-item list-group-item-action"
-                            >
-                                {activityGroup.name}
-                            </button>
-                        ))}
+            <div className="container mt-1 pt-2">
+                <ul className="nav nav-tabs" id="myTab" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className="nav-link active"
+                            id="home-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#center-details-tab-pane"
+                            type="button"
+                            role="tab"
+                            aria-controls="center-details-tab-pane"
+                            aria-selected="true"
+                        >
+                            Keskuse andmed
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className="nav-link"
+                            id="home-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#employees-tab-pane"
+                            type="button"
+                            role="tab"
+                            aria-controls="employees-tab-pane"
+                            aria-selected="false"
+                        >
+                            Töötajad
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className="nav-link"
+                            id="profile-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#visitors-tab-pane"
+                            type="button"
+                            role="tab"
+                            aria-controls="visitors-tab-pane"
+                            aria-selected="false"
+                        >
+                            Külastajad
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button
+                            className="nav-link"
+                            id="contact-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#activity-groups-tab-pane"
+                            type="button"
+                            role="tab"
+                            aria-controls="activity-groups-tab-pane"
+                            aria-selected="false"
+                        >
+                            Tegevused
+                        </button>
+                    </li>
+                </ul>
+                <div className="tab-content" id="center-details">
+                    <div
+                        className="tab-pane fade show active"
+                        id="center-details-tab-pane"
+                        role="tabpanel"
+                        aria-labelledby="center-details-tab"
+                        tabIndex={0}
+                    >
+                        <CenterDetailsTab youthCenterUuid={uuid!} />
+                    </div>
+                    <div
+                        className="tab-pane fade"
+                        id="employees-tab-pane"
+                        role="tabpanel"
+                        aria-labelledby="employee-details-tab"
+                        tabIndex={1}
+                    >
+                        <EmployeesTab youthCenterUuid={uuid!} />
+                    </div>
+                    <div
+                        className="tab-pane fade"
+                        id="visitors-tab-pane"
+                        role="tabpanel"
+                        aria-labelledby="visitors-tab"
+                        tabIndex={2}
+                    >
+                        <VisitorsTab youthCenterUuid={uuid!} />
+                    </div>
+                    <div
+                        className="tab-pane fade"
+                        id="activity-groups-tab-pane"
+                        role="tabpanel"
+                        aria-labelledby="ctivity-groups-tab"
+                        tabIndex={3}
+                    >
+                        <ActivityGroupsTab youthCenterUuid={uuid!} />
+                    </div>
                 </div>
             </div>
         </section>

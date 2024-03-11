@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {Navigate, useNavigate, useParams} from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { ActivityService } from '../../service/activity/ActivityService';
 import { Activity } from '../../domain/Activity';
 import { AppContext } from '../../state/AppContext';
@@ -14,7 +14,7 @@ const ActivityPage: React.FC = () => {
     const navigate = useNavigate();
 
     if (!appState.jwt) {
-        return <Navigate to={"/login"} replace/>
+        return <Navigate to={'/login'} replace />;
     }
 
     const [activity, setActivity] = useState<Activity | null>(null);

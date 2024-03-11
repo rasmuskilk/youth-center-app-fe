@@ -1,14 +1,14 @@
 // CenterPage.tsx
-import React, {useContext, useState} from 'react';
-import {Navigate, useParams} from 'react-router-dom';
-import {AppContext} from "../../state/AppContext";
+import React, { useContext, useState } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { AppContext } from '../../state/AppContext';
 
 const CenterStatisticsPage: React.FC = () => {
     const { uuid } = useParams();
     const appState = useContext(AppContext);
 
     if (!appState.jwt) {
-        return <Navigate to={"/login"} replace/>
+        return <Navigate to={'/login'} replace />;
     }
 
     const token = localStorage.getItem('token');

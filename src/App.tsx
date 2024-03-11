@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useState } from 'react';
-import {redirect, Route, Routes} from 'react-router-dom';
+import { redirect, Route, Routes } from 'react-router-dom';
 import Login from './components/login-page/Login';
 import Register from './components/register-page/Register';
 import GroupsPage from './components/activity-group-page/GroupsPage';
@@ -23,7 +23,7 @@ export const App = () => {
     const [appState, setAppState] = useState({ ...initialState, setToken });
 
     if (!appState.jwt?.token) {
-        redirect('/login')
+        redirect('/login');
     }
 
     return (
