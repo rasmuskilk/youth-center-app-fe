@@ -3,11 +3,13 @@ import { Employee } from '../../domain/Employee';
 import { AppContext } from '../../state/AppContext';
 import { YouthCenterEmployeeService } from '../../service/employee/YouthCenterEmployeeService';
 import { EmployeeTab } from './EmployeeTab';
+import {AddEmployeeModal} from "./AddEmployeeModal";
+import {AddExistingEmployeeModal} from "./AddExistingEmployeeModal";
 
 export const EmployeesTab = (props: Props) => {
     const appState = useContext(AppContext);
     const youthCenterEmployeesService = new YouthCenterEmployeeService(
-        props.youthCenterUuid,
+        props.youthCenterUuid
     );
 
     const [youthCenterEmployees, setYouthCenterEmployees] = useState<
@@ -33,7 +35,7 @@ export const EmployeesTab = (props: Props) => {
         }
     };
 
-    const handleVisitorClick = (visitorUuid: string) => {
+    const handleEmployeeClick = (visitorUuid: string) => {
         if (visitorUuid === activeEmployeeUuid) {
             setActiveEmployeeUuid(null);
             return;
@@ -43,32 +45,45 @@ export const EmployeesTab = (props: Props) => {
     };
 
     return (
-        <div className="container">
-            <div className="row row-cols-2">
-                <div className="list-group mt-2">
-                    {youthCenterEmployees &&
-                        youthCenterEmployees.map((employee) => (
-                            <button
-                                key={employee.uuid}
-                                type="button"
-                                onClick={() =>
-                                    handleVisitorClick(employee.uuid)
-                                }
-                                className={`list-group-item list-group-item-action mt-1 ${
-                                    activeEmployeeUuid === employee.uuid
-                                        ? 'active'
-                                        : ''
-                                }`}
-                            >
-                                {employee.firstName} {employee.lastName}
+            <div className="container">
+                <div className="row row-cols-2">
+                    <div className="list-group mt-2">
+                        {youthCenterEmployees &&
+                            youthCenterEmployees.map((employee) => (
+                                <button
+                                    key={employee.uuid}
+                                    type="button"
+                                    onClick={() =>
+                                        handleEmployeeClick(employee.uuid)
+                                    }
+                                    className={`list-group-item list-group-item-action mt-1 ${
+                                        activeEmployeeUuid === employee.uuid
+                                            ? 'active'
+                                            : ''
+                                    }`}
+                                >
+                                    {employee.firstName} {employee.lastName}
+                                </button>
+                            ))}
+                        <div>
+                            <button type="button" className="btn btn-primary mt-2 m-sm-0" data-bs-toggle="modal"
+                                    data-bs-target="#addEmployeeModal">
+                                Lisa uus töötaja
                             </button>
-                        ))}
-                </div>
-                <div className="col list-group mt-2">
-                    <EmployeeTab employeeUuid={activeEmployeeUuid} />
+                            <button type="button" className="btn btn-primary m-1" data-bs-toggle="modal"
+                                    data-bs-target="#addExistingEmployeeModal">
+                                Lisa olemasolev töötaja
+                            </button>
+                            <AddEmployeeModal youthCenterUuid={props.youthCenterUuid} fetchEmployees={fetchYouthCenterEmployees()}/>
+                            <AddExistingEmployeeModal youthCenterUuid={props.youthCenterUuid} fetchYouthCenterEmployees={fetchYouthCenterEmployees}/>
+                        </div>
+                    </div>
+                    <div className="col list-group mt-2">
+                        <EmployeeTab employeeUuid={activeEmployeeUuid}/>
+                    </div>
                 </div>
             </div>
-        </div>
+
     );
 };
 

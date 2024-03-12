@@ -49,24 +49,21 @@ export const EmployeeTab = (props: Props) => {
                 <ul className="list-group list-group-horizontal">
                     <li className="list-group-item bold">Eesnimi</li>
                     {editingEmployee ?
-                        <input className="form-control m-1" type="text" value={employee.firstName}
-                               aria-label="default input example"/> :
+                        <input className="form-control m-1" type="text" value={employee.firstName}/> :
                         <li className="list-group-item flex-fill">{employee.firstName}</li>
                     }
                 </ul>
                 <ul className="list-group list-group-horizontal">
                     <li className="list-group-item bold">Perekonnanimi</li>
                     {editingEmployee ?
-                        <input className="form-control m-1" type="text" value={employee.lastName}
-                               aria-label="default input example"/> :
+                        <input className="form-control m-1" type="text" value={employee.lastName}/> :
                         <li className="list-group-item flex-fill">{employee.lastName}</li>
                     }
                 </ul>
                 <ul className="list-group list-group-horizontal">
                     <li className="list-group-item bold">Haridus</li>
                     {editingEmployee ?
-                        <input className="form-control m-1" type="text" value={employee.education}
-                               aria-label="default input example"/> :
+                        <input className="form-control m-1" type="text" value={employee.education}/> :
                         <li className="list-group-item flex-fill">{employee.education}</li>
                     }
                 </ul>
