@@ -3,44 +3,47 @@ import {AppContext} from "../../state/AppContext";
 import {EmployeeService} from "../../service/employee/EmployeeService";
 import {Employee} from "../../domain/Employee";
 import {YouthCenterEmployeeService} from "../../service/employee/YouthCenterEmployeeService";
+import {VisitorService} from "../../service/visitor/VisitorService";
+import {YouthCenterVisitorService} from "../../service/visitor/YouthCenterVisitorService";
+import {Visitor} from "../../domain/Visitor";
 
-export const AddExistingEmployeeModal = (props: Props) => {
+export const AddExistingVisitorModal = (props: Props) => {
     const appState = useContext(AppContext);
-    const employeeService = new EmployeeService();
-    const youthCenterEmployeeService = new YouthCenterEmployeeService(props.youthCenterUuid);
+    const visitorService = new VisitorService();
+    const youthCenterVisitorService = new YouthCenterVisitorService(props.youthCenterUuid);
 
-    const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-    const [employees, setEmployees] = useState<Employee[] | null>(null);
+    const [selectedVisitor, setSelectedVisitor] = useState<Visitor | null>(null);
+    const [visitors, setVisitors] = useState<Visitor[] | null>(null);
 
     useEffect(() => {
-        fetchEmployees();
+        fetchVisitors();
     }, []);
 
-    const fetchEmployees = async () => {
-        const response = await employeeService.getAll(appState.jwt?.token!);
+    const fetchVisitors = async () => {
+        const response = await visitorService.getAll(appState.jwt?.token!);
 
-        setEmployees(response);
+        setVisitors(response);
     }
 
-    const handleSelectedEmployeeOnClick = async (employee: Employee) => {
-        setSelectedEmployee(employee);
+    const handleSelectedVisitorOnClick = async (visitor: Visitor) => {
+        setSelectedVisitor(visitor);
     }
 
-    const handleSaveEmployeeOnClick = async () => {
-        if (selectedEmployee == null) {
+    const handleSaveVisitorOnClick = async () => {
+        if (selectedVisitor == null) {
             return;
         }
 
-        await youthCenterEmployeeService.addEmployeeToYouthCenter(props.youthCenterUuid, selectedEmployee.uuid, appState.jwt?.token!);
+        await youthCenterVisitorService.addVisitorToYouthCenter(props.youthCenterUuid, selectedVisitor.uuid, appState.jwt?.token!);
     }
 
     return (
-        <div className="modal fade" id="addExistingEmployeeModal" tabIndex={-1}
+        <div className="modal fade" id="addExistingVisitorModal" tabIndex={-1}
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">Lisa olemasolev töötaja</h1>
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Lisa olemasolev külastaja</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
@@ -48,27 +51,27 @@ export const AddExistingEmployeeModal = (props: Props) => {
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                Vali töötaja
+                                Vali külastaja
                             </button>
                             <ul className="dropdown-menu">
-                                {employees && employees.map((employee) => (
-                                    <li key={employee.uuid}>
-                                        <a className="dropdown-item" onClick={() => handleSelectedEmployeeOnClick(employee)} href="#">{employee.firstName} {employee.lastName}</a>
+                                {visitors && visitors.map((visitor) => (
+                                    <li key={visitor.uuid}>
+                                        <a className="dropdown-item" onClick={() => handleSelectedVisitorOnClick(visitor)} href="#">{visitor.firstName} {visitor.lastName}</a>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         <div className="m-1">
-                            {selectedEmployee && (
+                            {selectedVisitor && (
                                 <div>
                                     <hr/>
-                                    Töötaja andmed
+                                    Külastaja andmed
                                     <hr/>
-                                    {selectedEmployee.firstName} {selectedEmployee.lastName}
+                                    {selectedVisitor.firstName} {selectedVisitor.lastName}
                                     <br/>
-                                    {selectedEmployee.education}
+                                    {selectedVisitor.address}
                                     <br/>
-                                    {selectedEmployee.email}
+                                    {selectedVisitor.age}
                                 </div>
 
                             )}
@@ -76,11 +79,11 @@ export const AddExistingEmployeeModal = (props: Props) => {
                     </div>
                     <div className="modal-footer">
                         <button type="button"
-                                onClick={() => {setSelectedEmployee(null)}}
+                                onClick={() => {setSelectedVisitor(null)}}
                                 className="btn btn-secondary"
                                 data-bs-dismiss="modal">Tühista
                         </button>
-                        <button type="button" className={`btn btn-primary ${selectedEmployee ? '' : 'disabled'}`} onClick={() => handleSaveEmployeeOnClick()}>Lisa</button>
+                        <button type="button" className={`btn btn-primary ${selectedVisitor ? '' : 'disabled'}`} onClick={() => handleSaveVisitorOnClick()}>Lisa</button>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {AppContext} from "../../state/AppContext";
 import {ActivityService} from "../../service/activity/ActivityService";
 import {Activity} from "../../domain/Activity";
+import {ActivityModal} from "./ActivityModal";
 
 export const ActivitiesTab = (props: Props) => {
     const appState = useContext(AppContext);
@@ -40,13 +41,18 @@ export const ActivitiesTab = (props: Props) => {
                 <div className="list-group">
                     {
                         activities.map((activity) => (
-                            <button
-                                key={activity.uuid}
-                                type="button"
-                                className="list-group-item list-group-item-action mt-1"
-                            >
-                                {activity.description}
-                            </button>
+                            <div key={activity.uuid}>
+                                <button
+                                    key={activity.uuid}
+                                    type="button"
+                                    className="list-group-item list-group-item-action mt-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target={`#activityModal${activity.uuid}`}
+                                >
+                                    {activity.startDate.toString()}
+                                </button>
+                                <ActivityModal activity={activity}/>
+                            </div>
                         ))}
                 </div>
             </div>

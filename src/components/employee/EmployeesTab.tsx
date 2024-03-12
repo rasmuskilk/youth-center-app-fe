@@ -74,8 +74,8 @@ export const EmployeesTab = (props: Props) => {
                                     data-bs-target="#addExistingEmployeeModal">
                                 Lisa olemasolev töötaja
                             </button>
-                            <AddEmployeeModal youthCenterUuid={props.youthCenterUuid} fetchEmployees={fetchYouthCenterEmployees()}/>
-                            <AddExistingEmployeeModal youthCenterUuid={props.youthCenterUuid} fetchYouthCenterEmployees={fetchYouthCenterEmployees}/>
+                            <AddEmployeeModal youthCenterUuid={props.youthCenterUuid}/>
+                            <AddExistingEmployeeModal youthCenterUuid={props.youthCenterUuid}/>
                         </div>
                     </div>
                     <div className="col list-group mt-2">

@@ -32,7 +32,7 @@ export const AddEmployeeModal = (props: Props) => {
 
         const createdEmployee = await employeeService.createNewEmployee(employee, appState.jwt?.token!);
         await youthCenterEmployeeService.addEmployeeToYouthCenter(props.youthCenterUuid, createdEmployee.uuid, appState.jwt?.token!);
-        props.fetchEmployees;
+        // props.fetchEmployees;
     }
 
     return (
@@ -99,6 +99,5 @@ export const AddEmployeeModal = (props: Props) => {
 }
 
 interface Props {
-    youthCenterUuid: string,
-    fetchEmployees: object
+    youthCenterUuid: string
 }

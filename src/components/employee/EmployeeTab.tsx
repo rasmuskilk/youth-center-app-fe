@@ -78,7 +78,13 @@ export const EmployeeTab = (props: Props) => {
             </div>
             <div>
                 <button onClick={() => handleEditOnClick()}
-                        className="btn btn-secondary mt-1">{editingEmployee ? "Tühista" : "Muuda"}</button>
+                        className="btn btn-secondary m-1">{editingEmployee ? "Tühista" : "Muuda"}</button>
+
+                <button className="btn btn-secondary m-1">Eemalda keskusest
+                </button>
+
+                <button className="btn btn-danger m-1">Kustuta
+                </button>
             </div>
         </div>
 

@@ -3,6 +3,10 @@ import { AppContext } from '../../state/AppContext';
 import { YouthCenterVisitorService } from '../../service/visitor/YouthCenterVisitorService';
 import { Visitor } from '../../domain/Visitor';
 import { VisitorTab } from './VisitorTab';
+import {AddEmployeeModal} from "../employee/AddEmployeeModal";
+import {AddExistingEmployeeModal} from "../employee/AddExistingEmployeeModal";
+import {AddVisitorModal} from "./AddVisitorModal";
+import {AddExistingVisitorModal} from "./AddExistingVisitorModal";
 
 export const VisitorsTab = (props: Props) => {
     const appState = useContext(AppContext);
@@ -61,9 +65,21 @@ export const VisitorsTab = (props: Props) => {
                                 {visitor.firstName} {visitor.lastName}
                             </button>
                         ))}
+                    <div>
+                        <button type="button" className="btn btn-primary mt-2 m-sm-0" data-bs-toggle="modal"
+                                data-bs-target="#addVisitorModal">
+                            Lisa uus külastaja
+                        </button>
+                        <button type="button" className="btn btn-primary m-1" data-bs-toggle="modal"
+                                data-bs-target="#addExistingVisitorModal">
+                            Lisa olemasolev külastaja
+                        </button>
+                        <AddVisitorModal youthCenterUuid={props.youthCenterUuid}/>
+                        <AddExistingVisitorModal youthCenterUuid={props.youthCenterUuid}/>
+                    </div>
                 </div>
                 <div className="col list-group mt-2">
-                    <VisitorTab visitorUuid={activeVisitorUuid} />
+                    <VisitorTab visitorUuid={activeVisitorUuid}/>
                 </div>
             </div>
         </div>
