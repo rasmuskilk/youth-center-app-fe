@@ -1,11 +1,27 @@
 import { BaseService } from '../base/BaseService';
 import { Activity } from '../../domain/Activity';
-import { ActivityGroup } from '../../domain/ActivityGroup';
 import httpClient from '../../utils/http-client';
 
 export class ActivityService extends BaseService<Activity> {
     constructor() {
         super('activities');
+    }
+
+    async getActivitiesByActivityGroupUuid(activityGroupUuid: string | null, token: string): Promise<Activity[]> {
+        if (activityGroupUuid == null) {
+            return [];
+        }
+
+        const response = await httpClient.get(
+            `/groups/${activityGroupUuid}/activities`,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            },
+        );
+
+        return response.data;
     }
 
     async addActivityToGroup(

@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ActivityGroup } from '../../domain/ActivityGroup';
 import { AppContext } from '../../state/AppContext';
 import { ActivityGroupService } from '../../service/activity-group/ActivityGroupService';
-import { EmployeeTab } from '../employee/EmployeeTab';
+import {ActivitiesTab} from "../activity/ActivitiesTab";
 
 export const ActivityGroupsTab = (props: Props) => {
     const appState = useContext(AppContext);
-
     const youthCenterActivityGroupService = new ActivityGroupService();
 
     const [youthCenterActivityGroups, setYouthCenterActivityGroups] = useState<
@@ -67,7 +66,7 @@ export const ActivityGroupsTab = (props: Props) => {
                         ))}
                 </div>
                 <div className="col list-group mt-2">
-                    <EmployeeTab employeeUuid={activeActivityGroupUuid} />
+                    <ActivitiesTab activityGroupUuid={activeActivityGroupUuid!} />
                 </div>
             </div>
         </div>
