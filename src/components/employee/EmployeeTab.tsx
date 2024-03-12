@@ -87,7 +87,6 @@ export const EmployeeTab = (props: Props) => {
                 </button>
             </div>
         </div>
-
     );
 };
 

@@ -8,6 +8,7 @@ export const VisitorTab = (props: Props) => {
     const visitorService = new VisitorService();
 
     const [visitor, setVisitor] = useState<Visitor | null>(null);
+    const [editingVisitor, setEditingVisitor] = useState(false);
 
     useEffect(() => {
         fetchVisitor();
@@ -31,24 +32,49 @@ export const VisitorTab = (props: Props) => {
         }
     };
 
+    const handleEditOnClick = () => {
+        setEditingVisitor(!editingVisitor);
+    }
+
     if (visitor == null) {
         return <div></div>;
     }
 
     return (
-        <div
-            className="container mt-1"
-            style={{ background: 'rgba(0, 80, 255, 0.15)' }}
-        >
-            <h4>Eesnimi: {visitor.firstName}</h4>
-            <h4>Perekonnanimi: {visitor.lastName}</h4>
-            <h4>Vanus: {visitor.age}</h4>
-            <h4>Aadress: {visitor.address}</h4>
-            <h4>Kool: {visitor.school}</h4>
-            <h4>Vanema nimi: {visitor.parentName}</h4>
-            <h4>Vanema telefon: {visitor.parentPhone}</h4>
-            <h4>Vanema email: {visitor.parentEmail}</h4>
-            <h4>Märkused: {visitor.notes}</h4>
+        <div>
+            <div
+                className="container mt-1 p-1"
+                style={{background: 'rgba(0, 80, 255, 0.15)'}}
+            >
+                <ul className="list-group list-group-horizontal">
+                    <li className="list-group-item bold">Eesnimi</li>
+                    {editingVisitor ?
+                        <input className="form-control m-1" type="text" value={visitor.firstName}/> :
+                        <li className="list-group-item flex-fill">{visitor.firstName}</li>
+                    }
+                </ul>
+                <ul className="list-group list-group-horizontal">
+                    <li className="list-group-item bold">Perekonnanimi</li>
+                    {editingVisitor ?
+                        <input className="form-control m-1" type="text" value={visitor.lastName}/> :
+                        <li className="list-group-item flex-fill">{visitor.lastName}</li>
+                    }
+                </ul>
+                <ul className="list-group list-group-horizontal">
+                    <li className="list-group-item bold">Vanus</li>
+                    <li className="list-group-item flex-fill">{visitor.age}</li>
+                </ul>
+            </div>
+            <div>
+                <button onClick={() => handleEditOnClick()}
+                        className="btn btn-secondary m-1">{editingVisitor ? "Tühista" : "Muuda"}</button>
+
+                <button className="btn btn-secondary m-1">Eemalda keskusest
+                </button>
+
+                <button className="btn btn-danger m-1">Kustuta
+                </button>
+            </div>
         </div>
     );
 };
